@@ -1,7 +1,33 @@
-{% extends "base.html" %}
+{% include "base.html" %}
 
 {% block conent %}
-    {% for product in products %}
-        <p>{{product}}</p>
-    {% endfor %}
+
+<div>
+    <h1>CART:</h1>
+    
+    <ul>
+        {% for item in carts %}
+            <li>{{item}}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+<div>
+    <h1>Product:</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <form action="{% url 'add_cart' product.id %}">
+                    <b>name: </b>{{product}} -- <b>desc:</b> {{product.description}} -- <b>price:</b> {{product.price}}
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{product.id}}">
+                    <button type="submit">add to cart</button>
+                </form>    
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}
